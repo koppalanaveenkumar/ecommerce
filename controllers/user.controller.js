@@ -100,3 +100,23 @@ exports.forgotPassword = async(req, res) => {
         }
 }
 
+
+exports.updateRole = async (req, res)=>{
+    try{
+        let user = await userModel.findOne({_id:req.body._id});
+        if(user.isAdmin){
+            let updateUser = await userModel.findByIdAndUpdate(req.body.target_Id, {isAdmin: req.body.isAdmin}, {new : true});
+            if(updateUser){
+                res.status(200).send({success: true, message: "role updated successfully"});            
+            }
+            else{
+                res.status(404).send({success: true , message: "User not found"});
+            }
+        }
+        else{
+            res.status(401).send({success: false, message: "Unauthorized access"});
+        }
+    }catch(err){
+        return res.status(500).send({success: false, message: err.message});
+    }
+}

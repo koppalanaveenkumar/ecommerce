@@ -36,4 +36,5 @@ userRouter.get('/register',userController.register);
 userRouter.post('/login', userController.login);
 userRouter.put('/changePassword', authMiddleware,userController.changePassword);
 userRouter.post('/forgotPassword', userController.forgotPassword);
+userRouter.patch('/updateRole', authMiddleware,userController.updateRole);
 module.exports = userRouter;

@@ -1,30 +1,62 @@
 // loading of modules
 const express = require('express');
 const dotenv = require('dotenv');
+const swaggerDocs = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 // Express App creation
 const app = express();
 dotenv.config();
 app.use(express.json());
 
-// DB connection
+// user defined modules
 const db = require('./utilities/db.config');
+var userRouter = require('./routes/user.route');
+var categoryRouter = require('./routes/category.route');
+var productRouter  = require('./routes/product.route');
+
 db.connectToDB();
 
-// API_URL
 
-// http://localhost:8089/api/v1.0.0/user/register
-var userRouter = require('./routes/user.route');
+const swaggerOptions = {
+    swaggerDefinition: {
+      info: {
+        version: '1.0.0',
+        title: 'Ecommerce API',
+        description : "Customer API Information",
+        contact : {
+            name: "Naveenkumar K"
+        },
+      },
+      servers : ["http://localhost:8089"]
+    },
+    apis: ['index.js'], // files containing annotations as above
+};
+  
+
+// Route Configuration
 app.use(`${process.env.API_URL}/user`, userRouter);
+app.use(`${process.env.API_URL}/category`, categoryRouter);
+app.use(`${process.env.API_URL}/product`, productRouter);
 
-var categoryRouter = require('./routes/category.route');
-app.use(`${process.env.API_URL}/category`, categoryRouter)
+const sDocs =  swaggerDocs(swaggerOptions);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(sDocs));
 
-var productRouter  = require('./routes/product.route');
-app.use(`${process.env.API_URL}/product`, productRouter)
 
 // http://localhost:8089/api/v1.0.0/healthcheck
-app.get(`${process.env.API_URL}/healthcheck`, (req, res) => {
+
+
+/**
+ * @swagger
+ * /healthcheck:
+ *   get:
+ *     description: This is a health check api!
+ *     responses:
+ *       200:
+ *         description: Sucess.
+ */
+
+app.get(`${process.env.API_URL}/healthcheck`, (_req, res) => {
     res.send("<img src='https://www.devopsschool.com/assets/assets1/images/courses/gitlab-training.png'>")
 })
 

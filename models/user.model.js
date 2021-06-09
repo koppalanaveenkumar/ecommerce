@@ -28,6 +28,11 @@ var userSchema = new Schema(
             unique : true,
             required : true,
             validate : [validateEmail, 'email id is not approprite']
+        },
+        isAdmin: {
+            type: Boolean,
+            required: true,
+            default: false
         }
     }
 );
