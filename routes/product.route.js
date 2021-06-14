@@ -8,4 +8,5 @@ productRoute.get('/list', productController.list);
 productRoute.get('/getById/:id', productController.getById);
 productRoute.delete('/deleteById/:id', productController.deleteById);
 productRoute.put('/updateById/:id', productController.updateById);
+productRoute.get('/sortList/:id', productController.sortList);
 module.exports = productRoute;

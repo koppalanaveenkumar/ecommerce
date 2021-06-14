@@ -11,9 +11,10 @@ app.use(express.json());
 
 // user defined modules
 const db = require('./utilities/db.config');
-var userRouter = require('./routes/user.route');
-var categoryRouter = require('./routes/category.route');
-var productRouter  = require('./routes/product.route');
+var userRouter = require('../ecommerce/routes/user.route');
+var categoryRouter = require('../ecommerce/routes/category.route');
+var productRouter  = require('../ecommerce/routes/product.route');
+var orderRouter  = require('../ecommerce/routes/order.route');
 
 db.connectToDB();
 
@@ -38,6 +39,7 @@ const swaggerOptions = {
 app.use(`${process.env.API_URL}/user`, userRouter);
 app.use(`${process.env.API_URL}/category`, categoryRouter);
 app.use(`${process.env.API_URL}/product`, productRouter);
+app.use(`${process.env.API_URL}/order`, orderRouter);
 
 const sDocs =  swaggerDocs(swaggerOptions);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(sDocs));

@@ -61,6 +61,19 @@ exports.updateById = async (req, res) =>{
     }
 }
 
+exports.sortList = async (req, res)=>{
+
+    try{    
+        
+        let docs = await productModel.find().sort({price: -1, price: req.params.id});
+        if(docs)
+            res.status(201).send({sucess : true, message : docs});
+        else
+            res.status(401).send({sucess : false, message : "Something went wrong"})
+    } catch(err){
+        return res.status(500).send({sucess : false, message :err.message})
+    }
+}
 
 // 
 // {
