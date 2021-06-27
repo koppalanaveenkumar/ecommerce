@@ -15,16 +15,48 @@ exports.register = async (req, res)=>{
     let document = new userModel(user);
     try{
         let doc = await document.save();
-        if(doc)
+        if(doc){
             res.status(201).send({sucess : true, message: "Sucess"});
-        else
+            console.log(doc)
+        }
+        else{
             res.status(404).send({sucess : false, message: "Something wrong"});
+        }
     }catch(err){
         res.status(500).send({sucess : false, message: err.message});
     }
 }
 
+
+// Get all user details
+
+exports.list = async (req, res)=>{
+    try{
+        let user = await userModel.find();
+        if(user)
+        res.status(201).send({sucess : true, user : user});
+        else
+        res.status(401).send({sucess : false, message : "Not found Product"})
+    } catch(err){
+
+    }
+}
+
+// Get By _id
+
+exports.getById = async (req, res)=>{
+    try{
+        let user = await userModel.findById({_id: req.params.id});
+        if(user)
+        res.status(201).send({sucess : true, user : user});
+        else
+        res.status(401).send({sucess : false, message : "Not found Product"})
+    } catch(err){
+        return res.status(500).send({sucess : false, message :err.message})
+    }
+}
 // Login
+
 
 exports.login = async(req, res)=>{
     try{

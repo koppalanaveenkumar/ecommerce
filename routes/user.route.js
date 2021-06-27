@@ -33,6 +33,8 @@ var authMiddleware = (req, res, next) => {
 
 
 userRouter.get('/register',userController.register);
+userRouter.get('/list', userController.list);
+userRouter.get('/getById/:id', userController.getById);
 userRouter.post('/login', userController.login);
 userRouter.put('/changePassword', authMiddleware,userController.changePassword);
 userRouter.post('/forgotPassword', userController.forgotPassword);
